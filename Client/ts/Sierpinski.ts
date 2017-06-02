@@ -7,11 +7,16 @@ export default class Sierpinski {
     height: number;
     triangleHeight: number;
 
+    zoomDepth: number;
+    currentIterations: number;
+
     constructor() {
 
         this.width = 1000;
         this.height = 1000;
         this.triangleHeight = 800;
+        this.zoomDepth = 0;
+        this.currentIterations = 0;
 
         this.svg = d3.select("#chart")
             .append("svg:svg")
@@ -44,6 +49,8 @@ export default class Sierpinski {
             let t = d3.select(this);
             self.splitTriangle(this, Number(t.attr('cx')), Number(t.attr('cy')), Number(t.attr('r')));
         });
+
+        this.currentIterations += 1;
     }
 
     splitTriangle = (triangle: d3.BaseType, cx: number, cy: number, r: number) => {
@@ -59,11 +66,24 @@ export default class Sierpinski {
         this.newTriangle(this.width / 2, this.height * 2 / 3, this.triangleHeight * 2 / 3)
 
         for (var i = 0; i < 5; i++) {
+            this.zoomDepth += 1;
             this.processOuterTriangles();
         }
     }
 
     transform = () => {
+        if (d3.event.sourceEvent.type === "wheel") {
+            //doesn't work in chrome yet...'
+            if (d3.event.sourceEvent.deltaY < 0) {
+                this.zoomDepth += 1;
+            } else if (d3.event.sourceEvent.deltaY > 0) {
+                this.zoomDepth += -1;
+            }
+
+            if (this.zoomDepth > this.currentIterations) {
+                this.processOuterTriangles();
+            }
+        }
         this.svg.attr("transform", d3.event.transform)
     }
 }
