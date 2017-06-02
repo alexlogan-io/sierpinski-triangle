@@ -12,9 +12,9 @@ export default class Sierpinski {
 
     constructor() {
 
-        this.width = 1000;
-        this.height = 1000;
-        this.triangleHeight = 800;
+        this.width = 800;
+        this.height = 800;
+        this.triangleHeight = 650;
         this.zoomDepth = 0;
         this.currentIterations = 0;
 
@@ -79,11 +79,32 @@ export default class Sierpinski {
             } else if (d3.event.sourceEvent.deltaY > 0) {
                 this.zoomDepth += -1;
             }
-
-            if (this.zoomDepth > this.currentIterations) {
-                this.processOuterTriangles();
-            }
+            this.compareZoomAndIterate();
         }
         this.svg.attr("transform", d3.event.transform)
+    }
+
+    compareZoomAndIterate = () => {
+        if (this.zoomDepth > this.currentIterations) {
+            this.processOuterTriangles();
+        }
+    }
+
+    reset = () => {
+        d3.select("#chart").selectAll('*').remove();
+
+        this.zoomDepth = 0;
+        this.currentIterations = 0;
+
+        this.svg = d3.select("#chart")
+            .append("svg:svg")
+            .attr("width", this.width)
+            .attr("height", this.height)
+            .attr("pointer-events", "all")
+            .append('svg:g')
+            .call(d3.zoom().on("zoom", this.transform))
+            .append('svg:g');
+
+        this.init();
     }
 }

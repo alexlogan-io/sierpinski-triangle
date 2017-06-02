@@ -1,9 +1,16 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<div class="container">
-    <div id = "chart"></div>
-    <button class="btn btn-default" id="runBtn">Run</button>
+<div>
+    <div class="row">
+        <div class="col-md-11">
+            <div id="chart"></div>
+        </div>
+        <div class="col-md-1">
+            <br />
+            <button class="btn btn-default btn-block" id="resetBtn">Reset</button>
+        </div>
+    </div>
 </div>
 
 @section Scripts {

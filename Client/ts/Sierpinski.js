@@ -22,6 +22,7 @@ var Sierpinski = (function () {
                 var t = d3.select(this);
                 self.splitTriangle(this, Number(t.attr('cx')), Number(t.attr('cy')), Number(t.attr('r')));
             });
+            _this.currentIterations += 1;
         };
         this.splitTriangle = function (triangle, cx, cy, r) {
             _this.newTriangle(cx, cy - r / 2, r / 2);
@@ -33,14 +34,30 @@ var Sierpinski = (function () {
         this.init = function () {
             _this.newTriangle(_this.width / 2, _this.height * 2 / 3, _this.triangleHeight * 2 / 3);
             for (var i = 0; i < 5; i++) {
+                _this.zoomDepth += 1;
                 _this.processOuterTriangles();
             }
         };
         this.transform = function () {
+            if (d3.event.sourceEvent.type === "wheel") {
+                //doesn't work in chrome yet...'
+                if (d3.event.sourceEvent.deltaY < 0) {
+                    _this.zoomDepth += 1;
+                }
+                else if (d3.event.sourceEvent.deltaY > 0) {
+                    _this.zoomDepth += -1;
+                }
+                if (_this.zoomDepth > _this.currentIterations) {
+                    _this.processOuterTriangles();
+                }
+            }
             _this.svg.attr("transform", d3.event.transform);
         };
-    }
-    Sierpinski.prototype.Sierpinski = function () {
+        this.width = 1000;
+        this.height = 1000;
+        this.triangleHeight = 800;
+        this.zoomDepth = 0;
+        this.currentIterations = 0;
         this.svg = d3.select("#chart")
             .append("svg:svg")
             .attr("width", this.width)
@@ -50,7 +67,7 @@ var Sierpinski = (function () {
             .call(d3.zoom().on("zoom", this.transform))
             .append('svg:g');
         this.init();
-    };
+    }
     return Sierpinski;
 }());
 exports.default = Sierpinski;

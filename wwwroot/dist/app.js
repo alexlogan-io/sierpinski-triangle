@@ -93,10 +93,11 @@ module.exports = (__webpack_require__(0))(3);
 Object.defineProperty(exports, "__esModule", { value: true });
 var $ = __webpack_require__(1);
 var Sierpinski_1 = __webpack_require__(4);
+__webpack_require__(6);
 ($(function () {
     var spnski = new Sierpinski_1.default();
-    $('#runBtn').on('click', function () {
-        spnski.processOuterTriangles();
+    $('#resetBtn').on('click', function () {
+        spnski.reset();
     });
 }));
 
@@ -155,15 +156,32 @@ var Sierpinski = (function () {
                 else if (d3.event.sourceEvent.deltaY > 0) {
                     _this.zoomDepth += -1;
                 }
-                if (_this.zoomDepth > _this.currentIterations) {
-                    _this.processOuterTriangles();
-                }
+                _this.compareZoomAndIterate();
             }
             _this.svg.attr("transform", d3.event.transform);
         };
-        this.width = 1000;
-        this.height = 1000;
-        this.triangleHeight = 800;
+        this.compareZoomAndIterate = function () {
+            if (_this.zoomDepth > _this.currentIterations) {
+                _this.processOuterTriangles();
+            }
+        };
+        this.reset = function () {
+            d3.select("#chart").selectAll('*').remove();
+            _this.zoomDepth = 0;
+            _this.currentIterations = 0;
+            _this.svg = d3.select("#chart")
+                .append("svg:svg")
+                .attr("width", _this.width)
+                .attr("height", _this.height)
+                .attr("pointer-events", "all")
+                .append('svg:g')
+                .call(d3.zoom().on("zoom", _this.transform))
+                .append('svg:g');
+            _this.init();
+        };
+        this.width = 800;
+        this.height = 800;
+        this.triangleHeight = 650;
         this.zoomDepth = 0;
         this.currentIterations = 0;
         this.svg = d3.select("#chart")
@@ -191,6 +209,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.sin30 = Math.pow(3, 1 / 2) / 2;
 exports.cos30 = 0.5;
 
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
