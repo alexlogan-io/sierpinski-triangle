@@ -92,60 +92,88 @@ module.exports = (__webpack_require__(0))(3);
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var $ = __webpack_require__(1);
-var d3 = __webpack_require__(2);
-var width = 1000;
-var height = 1000;
-var s = 800;
-var sin30 = Math.pow(3, 1 / 2) / 2;
-var cos30 = .5;
-var svg;
-var appendTriangle = function (cx, cy, r) {
-    svg.append('polygon')
-        .attr('cx', cx)
-        .attr('cy', cy)
-        .attr('r', r)
-        .attr('class', 'outer')
-        .attr('fill', 'black')
-        .attr('points', (cx) + ',' + (cy - r) + ' ' +
-        (cx - r * sin30) + ',' + (cy + r * cos30) + ' ' +
-        (cx + r * sin30) + ',' + (cy + r * cos30));
-};
-var run = function () {
-    d3.selectAll('.outer').each(function () {
-        var t = d3.select(this);
-        splitTriangle(this, Number(t.attr('cx')), Number(t.attr('cy')), Number(t.attr('r')));
-    });
-};
-var init = function () {
-    appendTriangle(width / 2, height * 2 / 3, s * 2 / 3);
-    for (var i = 0; i < 5; i++) {
-        run();
-    }
-};
-var splitTriangle = function (triangle, cx, cy, r) {
-    appendTriangle(cx, cy - r / 2, r / 2);
-    appendTriangle(cx - r * sin30 / 2, cy + r * cos30 / 2, r / 2);
-    appendTriangle(cx + r * sin30 / 2, cy + r * cos30 / 2, r / 2);
-    //d3.select(triangle).attr('fill', 'white').on('click', () => { }).attr('class','inner');
-    d3.select(triangle).remove();
-};
-var transform = function () {
-    svg.attr("transform", d3.event.transform);
-};
+var Sierpinski_1 = __webpack_require__(4);
 ($(function () {
-    svg = d3.select("#chart")
-        .append("svg:svg")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("pointer-events", "all")
-        .append('svg:g')
-        .call(d3.zoom().on("zoom", transform))
-        .append('svg:g');
-    init();
+    var spnski = new Sierpinski_1.default();
     $('#runBtn').on('click', function () {
-        run();
+        spnski.processOuterTriangles();
     });
 }));
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var d3 = __webpack_require__(2);
+var Consts_1 = __webpack_require__(5);
+var Sierpinski = (function () {
+    function Sierpinski() {
+        var _this = this;
+        this.newTriangle = function (cx, cy, r) {
+            _this.svg.append('polygon')
+                .attr('cx', cx)
+                .attr('cy', cy)
+                .attr('r', r)
+                .attr('class', 'outer')
+                .attr('fill', 'black')
+                .attr('points', (cx) + ',' + (cy - r) + ' ' +
+                (cx - r * Consts_1.sin30) + ',' + (cy + r * Consts_1.cos30) + ' ' +
+                (cx + r * Consts_1.sin30) + ',' + (cy + r * Consts_1.cos30));
+        };
+        this.processOuterTriangles = function () {
+            var self = _this;
+            d3.selectAll('.outer').each(function () {
+                var t = d3.select(this);
+                self.splitTriangle(this, Number(t.attr('cx')), Number(t.attr('cy')), Number(t.attr('r')));
+            });
+        };
+        this.splitTriangle = function (triangle, cx, cy, r) {
+            _this.newTriangle(cx, cy - r / 2, r / 2);
+            _this.newTriangle(cx - r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2);
+            _this.newTriangle(cx + r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2);
+            //d3.select(triangle).attr('fill', 'white').on('click', () => { }).attr('class','inner');
+            d3.select(triangle).remove();
+        };
+        this.init = function () {
+            _this.newTriangle(_this.width / 2, _this.height * 2 / 3, _this.triangleHeight * 2 / 3);
+            for (var i = 0; i < 5; i++) {
+                _this.processOuterTriangles();
+            }
+        };
+        this.transform = function () {
+            _this.svg.attr("transform", d3.event.transform);
+        };
+        this.width = 1000;
+        this.height = 1000;
+        this.triangleHeight = 800;
+        this.svg = d3.select("#chart")
+            .append("svg:svg")
+            .attr("width", this.width)
+            .attr("height", this.height)
+            .attr("pointer-events", "all")
+            .append('svg:g')
+            .call(d3.zoom().on("zoom", this.transform))
+            .append('svg:g');
+        this.init();
+    }
+    return Sierpinski;
+}());
+exports.default = Sierpinski;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sin30 = Math.pow(3, 1 / 2) / 2;
+exports.cos30 = 0.5;
 
 
 /***/ })
