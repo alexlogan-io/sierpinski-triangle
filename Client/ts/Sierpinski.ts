@@ -12,22 +12,13 @@ export default class Sierpinski {
 
     constructor() {
 
-        this.width = 800;
-        this.height = 800;
-        this.triangleHeight = 650;
+        this.width = document.getElementById('chart').offsetWidth;
+        this.height = window.innerHeight - document.getElementById('footer').offsetHeight - 30; //-30 to negate navbar
+        this.triangleHeight = Math.min(this.height, this.width);
         this.zoomDepth = 0;
         this.currentIterations = 0;
 
-        this.svg = d3.select("#chart")
-            .append("svg:svg")
-            .attr("width", this.width)
-            .attr("height", this.height)
-                .attr("pointer-events", "all")
-                .append('svg:g')
-            .call(d3.zoom().on("zoom", this.transform))
-            .append('svg:g');
-
-        this.init();
+        this.initaliseCanvas();
     }
 
     newTriangle = (cx: number, cy: number, r: number) => {
@@ -96,6 +87,11 @@ export default class Sierpinski {
         this.zoomDepth = 0;
         this.currentIterations = 0;
 
+        this.initaliseCanvas();
+        
+    }
+
+    initaliseCanvas = () => {
         this.svg = d3.select("#chart")
             .append("svg:svg")
             .attr("width", this.width)
@@ -104,6 +100,11 @@ export default class Sierpinski {
             .append('svg:g')
             .call(d3.zoom().on("zoom", this.transform))
             .append('svg:g');
+
+        this.svg.append('svg:rect')
+            .attr('width', this.width)
+            .attr('height', this.height)
+            .attr('fill', 'white');
 
         this.init();
     }

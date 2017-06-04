@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -76,41 +76,11 @@ module.exports = vendor_bf232075a28b6b634232;
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = (__webpack_require__(0))(18);
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = (__webpack_require__(0))(3);
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var $ = __webpack_require__(1);
-var Sierpinski_1 = __webpack_require__(4);
-__webpack_require__(6);
-($(function () {
-    var spnski = new Sierpinski_1.default();
-    $('#resetBtn').on('click', function () {
-        spnski.reset();
-    });
-}));
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var d3 = __webpack_require__(2);
-var Consts_1 = __webpack_require__(5);
+var d3 = __webpack_require__(6);
+var Consts_1 = __webpack_require__(4);
 var Sierpinski = (function () {
     function Sierpinski() {
         var _this = this;
@@ -169,6 +139,9 @@ var Sierpinski = (function () {
             d3.select("#chart").selectAll('*').remove();
             _this.zoomDepth = 0;
             _this.currentIterations = 0;
+            _this.initaliseCanvas();
+        };
+        this.initaliseCanvas = function () {
             _this.svg = d3.select("#chart")
                 .append("svg:svg")
                 .attr("width", _this.width)
@@ -177,22 +150,18 @@ var Sierpinski = (function () {
                 .append('svg:g')
                 .call(d3.zoom().on("zoom", _this.transform))
                 .append('svg:g');
+            _this.svg.append('svg:rect')
+                .attr('width', _this.width)
+                .attr('height', _this.height)
+                .attr('fill', 'white');
             _this.init();
         };
-        this.width = 800;
-        this.height = 800;
-        this.triangleHeight = 650;
+        this.width = document.getElementById('chart').offsetWidth;
+        this.height = window.innerHeight - document.getElementById('footer').offsetHeight - 30; //-30 to negate navbar
+        this.triangleHeight = Math.min(this.height, this.width);
         this.zoomDepth = 0;
         this.currentIterations = 0;
-        this.svg = d3.select("#chart")
-            .append("svg:svg")
-            .attr("width", this.width)
-            .attr("height", this.height)
-            .attr("pointer-events", "all")
-            .append('svg:g')
-            .call(d3.zoom().on("zoom", this.transform))
-            .append('svg:g');
-        this.init();
+        this.initaliseCanvas();
     }
     return Sierpinski;
 }());
@@ -200,7 +169,19 @@ exports.default = Sierpinski;
 
 
 /***/ }),
-/* 5 */
+/* 2 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = (__webpack_require__(0))(18);
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -211,10 +192,28 @@ exports.cos30 = 0.5;
 
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports) {
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var $ = __webpack_require__(3);
+var Sierpinski_1 = __webpack_require__(1);
+__webpack_require__(2);
+($(function () {
+    var spnski = new Sierpinski_1.default();
+    $('#resetBtn').on('click', function () {
+        spnski.reset();
+    });
+}));
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = (__webpack_require__(0))(3);
 
 /***/ })
 /******/ ]);
