@@ -6,6 +6,8 @@ import '../css/site.css';
 ($(function () {
 
     const spnski = new Sierpinski();
+    spnski.initaliseCanvas();
+    spnski.initIterations(5);
 
     $('#resetBtn').on('click', () => {
         spnski.reset();

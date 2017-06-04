@@ -91,9 +91,11 @@ var Sierpinski = (function () {
                 .attr('r', r)
                 .attr('class', 'outer')
                 .attr('fill', 'black')
-                .attr('points', (cx) + ',' + (cy - r) + ' ' +
-                (cx - r * Consts_1.sin30) + ',' + (cy + r * Consts_1.cos30) + ' ' +
-                (cx + r * Consts_1.sin30) + ',' + (cy + r * Consts_1.cos30));
+                .attr('points', _this.createPointsString(cx, cy, r));
+        };
+        this.createPointsString = function (cx, cy, r) {
+            //top point, left and right points calculated using trig 
+            return cx + "," + (cy - r) + " " + (cx - r * Consts_1.sin30) + ", " + (cy + r * Consts_1.cos30) + " " + (cx + r * Consts_1.sin30) + ", " + (cy + r * Consts_1.cos30);
         };
         this.processOuterTriangles = function () {
             var self = _this;
@@ -107,12 +109,11 @@ var Sierpinski = (function () {
             _this.newTriangle(cx, cy - r / 2, r / 2);
             _this.newTriangle(cx - r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2);
             _this.newTriangle(cx + r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2);
-            //d3.select(triangle).attr('fill', 'white').on('click', () => { }).attr('class','inner');
             d3.select(triangle).remove();
         };
-        this.init = function () {
+        this.initIterations = function (iterations) {
             _this.newTriangle(_this.width / 2, _this.height * 2 / 3, _this.triangleHeight * 2 / 3);
-            for (var i = 0; i < 5; i++) {
+            for (var i = 0; i < iterations; i++) {
                 _this.zoomDepth += 1;
                 _this.processOuterTriangles();
             }
@@ -140,6 +141,7 @@ var Sierpinski = (function () {
             _this.zoomDepth = 0;
             _this.currentIterations = 0;
             _this.initaliseCanvas();
+            _this.initIterations(5);
         };
         this.initaliseCanvas = function () {
             _this.svg = d3.select("#chart")
@@ -154,14 +156,12 @@ var Sierpinski = (function () {
                 .attr('width', _this.width)
                 .attr('height', _this.height)
                 .attr('fill', 'white');
-            _this.init();
         };
         this.width = document.getElementById('chart').offsetWidth;
-        this.height = window.innerHeight - document.getElementById('footer').offsetHeight - 30; //-30 to negate navbar
+        this.height = window.innerHeight - document.getElementById('footer').offsetHeight - 50; //-30 to negate navbar
         this.triangleHeight = Math.min(this.height, this.width);
         this.zoomDepth = 0;
         this.currentIterations = 0;
-        this.initaliseCanvas();
     }
     return Sierpinski;
 }());
@@ -203,6 +203,8 @@ var Sierpinski_1 = __webpack_require__(1);
 __webpack_require__(2);
 ($(function () {
     var spnski = new Sierpinski_1.default();
+    spnski.initaliseCanvas();
+    spnski.initIterations(5);
     $('#resetBtn').on('click', function () {
         spnski.reset();
     });

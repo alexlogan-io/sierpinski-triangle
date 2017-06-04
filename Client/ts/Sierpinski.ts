@@ -11,14 +11,11 @@ export default class Sierpinski {
     currentIterations: number;
 
     constructor() {
-
         this.width = document.getElementById('chart').offsetWidth;
-        this.height = window.innerHeight - document.getElementById('footer').offsetHeight - 30; //-30 to negate navbar
+        this.height = window.innerHeight - document.getElementById('footer').offsetHeight - 50; //-30 to negate navbar
         this.triangleHeight = Math.min(this.height, this.width);
         this.zoomDepth = 0;
         this.currentIterations = 0;
-
-        this.initaliseCanvas();
     }
 
     newTriangle = (cx: number, cy: number, r: number) => {
@@ -28,9 +25,12 @@ export default class Sierpinski {
             .attr('r', r)
             .attr('class', 'outer')
             .attr('fill', 'black')
-            .attr('points', (cx) + ',' + (cy - r) + ' ' +
-            (cx - r * sin30) + ',' + (cy + r * cos30) + ' ' +
-            (cx + r * sin30) + ',' + (cy + r * cos30))
+            .attr('points', this.createPointsString(cx,cy,r));
+    }
+
+    createPointsString = (cx: number, cy: number, r: number) => {
+        //top point, left and right points calculated using trig 
+        return `${cx},${cy - r} ${cx - r * sin30}, ${cy + r * cos30} ${cx + r * sin30}, ${cy + r * cos30}`;
     }
 
     processOuterTriangles = () => {
@@ -49,14 +49,13 @@ export default class Sierpinski {
         this.newTriangle(cx - r * sin30 / 2, cy + r * cos30 / 2, r / 2);
         this.newTriangle(cx + r * sin30 / 2, cy + r * cos30 / 2, r / 2);
 
-        //d3.select(triangle).attr('fill', 'white').on('click', () => { }).attr('class','inner');
         d3.select(triangle).remove();
     }
 
-    init = () => {
+    initIterations = (iterations: number) => {
         this.newTriangle(this.width / 2, this.height * 2 / 3, this.triangleHeight * 2 / 3)
 
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < iterations; i++) {
             this.zoomDepth += 1;
             this.processOuterTriangles();
         }
@@ -88,6 +87,7 @@ export default class Sierpinski {
         this.currentIterations = 0;
 
         this.initaliseCanvas();
+        this.initIterations(5);
         
     }
 
@@ -105,7 +105,5 @@ export default class Sierpinski {
             .attr('width', this.width)
             .attr('height', this.height)
             .attr('fill', 'white');
-
-        this.init();
     }
 }
