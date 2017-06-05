@@ -5,13 +5,13 @@ var Consts_1 = require("./Consts");
 var Sierpinski = (function () {
     function Sierpinski() {
         var _this = this;
-        this.newTriangle = function (cx, cy, r) {
+        this.newTriangle = function (cx, cy, r, color) {
             _this.svg.append('polygon')
                 .attr('cx', cx)
                 .attr('cy', cy)
                 .attr('r', r)
                 .attr('class', 'outer')
-                .attr('fill', 'black')
+                .attr('fill', color)
                 .attr('points', _this.createPointsString(cx, cy, r));
         };
         this.createPointsString = function (cx, cy, r) {
@@ -27,13 +27,13 @@ var Sierpinski = (function () {
             _this.currentIterations += 1;
         };
         this.splitTriangle = function (triangle, cx, cy, r) {
-            _this.newTriangle(cx, cy - r / 2, r / 2);
-            _this.newTriangle(cx - r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2);
-            _this.newTriangle(cx + r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2);
+            _this.newTriangle(cx, cy - r / 2, r / 2, 'blue');
+            _this.newTriangle(cx - r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2, 'green');
+            _this.newTriangle(cx + r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2, 'red');
             d3.select(triangle).remove();
         };
         this.initIterations = function (iterations) {
-            _this.newTriangle(_this.width / 2, _this.height * 2 / 3, _this.triangleHeight * 2 / 3);
+            _this.newTriangle(_this.width / 2, _this.height * 2 / 3, _this.triangleHeight * 2 / 3, 'black');
             for (var i = 0; i < iterations; i++) {
                 _this.zoomDepth += 1;
                 _this.processOuterTriangles();
@@ -58,11 +58,9 @@ var Sierpinski = (function () {
             }
         };
         this.reset = function () {
-            d3.select("#chart").selectAll('*').remove();
             _this.zoomDepth = 0;
             _this.currentIterations = 0;
-            _this.initaliseCanvas();
-            _this.initIterations(5);
+            d3.select("#chart").selectAll('*').remove();
         };
         this.initaliseCanvas = function () {
             _this.svg = d3.select("#chart")

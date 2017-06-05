@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -76,55 +76,21 @@ module.exports = vendor_bf232075a28b6b634232;
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = (__webpack_require__(0))(18);
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = (__webpack_require__(0))(3);
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var $ = __webpack_require__(1);
-var Sierpinski_1 = __webpack_require__(4);
-__webpack_require__(6);
-($(function () {
-    var spnski = new Sierpinski_1.default();
-    spnski.initaliseCanvas();
-    spnski.initIterations(5);
-    $('#resetBtn').on('click', function () {
-        spnski.reset();
-        spnski.initaliseCanvas();
-        spnski.initIterations(5);
-    });
-}));
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var d3 = __webpack_require__(2);
-var Consts_1 = __webpack_require__(5);
+var d3 = __webpack_require__(6);
+var Consts_1 = __webpack_require__(4);
 var Sierpinski = (function () {
     function Sierpinski() {
         var _this = this;
-        this.newTriangle = function (cx, cy, r) {
+        this.newTriangle = function (cx, cy, r, color) {
             _this.svg.append('polygon')
                 .attr('cx', cx)
                 .attr('cy', cy)
                 .attr('r', r)
                 .attr('class', 'outer')
-                .attr('fill', 'black')
+                .attr('fill', color)
                 .attr('points', _this.createPointsString(cx, cy, r));
         };
         this.createPointsString = function (cx, cy, r) {
@@ -140,13 +106,13 @@ var Sierpinski = (function () {
             _this.currentIterations += 1;
         };
         this.splitTriangle = function (triangle, cx, cy, r) {
-            _this.newTriangle(cx, cy - r / 2, r / 2);
-            _this.newTriangle(cx - r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2);
-            _this.newTriangle(cx + r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2);
+            _this.newTriangle(cx, cy - r / 2, r / 2, 'blue'); //top triangle
+            _this.newTriangle(cx - r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2, 'green'); //left
+            _this.newTriangle(cx + r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2, 'red'); //right
             d3.select(triangle).remove();
         };
         this.initIterations = function (iterations) {
-            _this.newTriangle(_this.width / 2, _this.height * 2 / 3, _this.triangleHeight * 2 / 3);
+            _this.newTriangle(_this.width / 2, _this.height * 2 / 3, _this.triangleHeight * 2 / 3, 'black');
             for (var i = 0; i < iterations; i++) {
                 _this.zoomDepth += 1;
                 _this.processOuterTriangles();
@@ -201,7 +167,19 @@ exports.default = Sierpinski;
 
 
 /***/ }),
-/* 5 */
+/* 2 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = (__webpack_require__(0))(18);
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -212,10 +190,32 @@ exports.cos30 = 0.5;
 
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports) {
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var $ = __webpack_require__(3);
+var Sierpinski_1 = __webpack_require__(1);
+__webpack_require__(2);
+($(function () {
+    var spnski = new Sierpinski_1.default();
+    spnski.initaliseCanvas();
+    spnski.initIterations(5);
+    $('#resetBtn').on('click', function () {
+        spnski.reset();
+        spnski.initaliseCanvas();
+        spnski.initIterations(5);
+    });
+}));
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = (__webpack_require__(0))(3);
 
 /***/ })
 /******/ ]);

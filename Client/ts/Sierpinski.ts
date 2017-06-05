@@ -18,13 +18,13 @@ export default class Sierpinski {
         this.currentIterations = 0;
     }
 
-    newTriangle = (cx: number, cy: number, r: number) => {
+    newTriangle = (cx: number, cy: number, r: number, color: string) => {
         this.svg.append('polygon')
             .attr('cx', cx)
             .attr('cy', cy)
             .attr('r', r)
             .attr('class', 'outer')
-            .attr('fill', 'black')
+            .attr('fill', color)
             .attr('points', this.createPointsString(cx,cy,r));
     }
 
@@ -45,15 +45,15 @@ export default class Sierpinski {
     }
 
     splitTriangle = (triangle: d3.BaseType, cx: number, cy: number, r: number) => {
-        this.newTriangle(cx, cy - r / 2, r / 2);
-        this.newTriangle(cx - r * sin30 / 2, cy + r * cos30 / 2, r / 2);
-        this.newTriangle(cx + r * sin30 / 2, cy + r * cos30 / 2, r / 2);
+        this.newTriangle(cx, cy - r / 2, r / 2, 'blue');//top triangle
+        this.newTriangle(cx - r * sin30 / 2, cy + r * cos30 / 2, r / 2, 'green');//left
+        this.newTriangle(cx + r * sin30 / 2, cy + r * cos30 / 2, r / 2, 'red');//right
 
         d3.select(triangle).remove();
     }
 
     initIterations = (iterations: number) => {
-        this.newTriangle(this.width / 2, this.height * 2 / 3, this.triangleHeight * 2 / 3)
+        this.newTriangle(this.width / 2, this.height * 2 / 3, this.triangleHeight * 2 / 3,'black')
 
         for (var i = 0; i < iterations; i++) {
             this.zoomDepth += 1;

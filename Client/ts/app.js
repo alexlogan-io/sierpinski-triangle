@@ -9,6 +9,8 @@ require("../css/site.css");
     spnski.initIterations(5);
     $('#resetBtn').on('click', function () {
         spnski.reset();
+        spnski.initaliseCanvas();
+        spnski.initIterations(5);
     });
 }));
 //# sourceMappingURL=app.js.map
