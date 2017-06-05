@@ -27,9 +27,9 @@ var Sierpinski = (function () {
             _this.currentIterations += 1;
         };
         this.splitTriangle = function (triangle, cx, cy, r) {
-            _this.newTriangle(cx, cy - r / 2, r / 2, 'blue');
-            _this.newTriangle(cx - r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2, 'green');
-            _this.newTriangle(cx + r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2, 'red');
+            _this.newTriangle(cx, cy - r / 2, r / 2, 'blue'); //top triangle
+            _this.newTriangle(cx - r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2, 'green'); //left
+            _this.newTriangle(cx + r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2, 'red'); //right
             d3.select(triangle).remove();
         };
         this.initIterations = function (iterations) {
@@ -58,6 +58,7 @@ var Sierpinski = (function () {
             }
         };
         this.reset = function () {
+            console.log(_this);
             _this.zoomDepth = 0;
             _this.currentIterations = 0;
             d3.select("#chart").selectAll('*').remove();

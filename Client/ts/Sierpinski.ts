@@ -45,9 +45,9 @@ export default class Sierpinski {
     }
 
     splitTriangle = (triangle: d3.BaseType, cx: number, cy: number, r: number) => {
-        this.newTriangle(cx, cy - r / 2, r / 2, 'blue');//top triangle
-        this.newTriangle(cx - r * sin30 / 2, cy + r * cos30 / 2, r / 2, 'green');//left
-        this.newTriangle(cx + r * sin30 / 2, cy + r * cos30 / 2, r / 2, 'red');//right
+        this.newTriangle(cx, cy - r / 2, r / 2, 'black');//top triangle
+        this.newTriangle(cx - r * sin30 / 2, cy + r * cos30 / 2, r / 2, 'black');//left
+        this.newTriangle(cx + r * sin30 / 2, cy + r * cos30 / 2, r / 2, 'black');//right
 
         d3.select(triangle).remove();
     }
@@ -81,6 +81,7 @@ export default class Sierpinski {
     }
 
     reset = () => {
+        console.log(this);
         this.zoomDepth = 0;
         this.currentIterations = 0;
 
