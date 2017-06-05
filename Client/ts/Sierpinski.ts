@@ -81,10 +81,10 @@ export default class Sierpinski {
     }
 
     reset = () => {
-        d3.select("#chart").selectAll('*').remove();
-
         this.zoomDepth = 0;
         this.currentIterations = 0;
+
+        d3.select("#chart").selectAll('*').remove();
     }
 
     initaliseCanvas = () => {

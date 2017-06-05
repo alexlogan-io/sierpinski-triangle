@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -76,11 +76,45 @@ module.exports = vendor_bf232075a28b6b634232;
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = (__webpack_require__(0))(18);
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = (__webpack_require__(0))(3);
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var d3 = __webpack_require__(6);
-var Consts_1 = __webpack_require__(4);
+var $ = __webpack_require__(1);
+var Sierpinski_1 = __webpack_require__(4);
+__webpack_require__(6);
+($(function () {
+    var spnski = new Sierpinski_1.default();
+    spnski.initaliseCanvas();
+    spnski.initIterations(5);
+    $('#resetBtn').on('click', function () {
+        spnski.reset();
+        spnski.initaliseCanvas();
+        spnski.initIterations(5);
+    });
+}));
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var d3 = __webpack_require__(2);
+var Consts_1 = __webpack_require__(5);
 var Sierpinski = (function () {
     function Sierpinski() {
         var _this = this;
@@ -137,9 +171,9 @@ var Sierpinski = (function () {
             }
         };
         this.reset = function () {
-            d3.select("#chart").selectAll('*').remove();
             _this.zoomDepth = 0;
             _this.currentIterations = 0;
+            d3.select("#chart").selectAll('*').remove();
         };
         this.initaliseCanvas = function () {
             _this.svg = d3.select("#chart")
@@ -167,19 +201,7 @@ exports.default = Sierpinski;
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = (__webpack_require__(0))(18);
-
-/***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -190,32 +212,10 @@ exports.cos30 = 0.5;
 
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var $ = __webpack_require__(3);
-var Sierpinski_1 = __webpack_require__(1);
-__webpack_require__(2);
-($(function () {
-    var spnski = new Sierpinski_1.default();
-    spnski.initaliseCanvas();
-    spnski.initIterations(5);
-    $('#resetBtn').on('click', function () {
-        spnski.reset();
-        spnski.initaliseCanvas();
-        spnski.initIterations(5);
-    });
-}));
-
-
-/***/ }),
 /* 6 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-module.exports = (__webpack_require__(0))(3);
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
