@@ -11,5 +11,7 @@ import '../css/site.css';
 
     $('#resetBtn').on('click', () => {
         spnski.reset();
+        spnski.initaliseCanvas();
+        spnski.initIterations(5);
     });
 }));

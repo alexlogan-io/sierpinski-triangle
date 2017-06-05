@@ -12,9 +12,11 @@ var Sierpinski = (function () {
                 .attr('r', r)
                 .attr('class', 'outer')
                 .attr('fill', 'black')
-                .attr('points', (cx) + ',' + (cy - r) + ' ' +
-                (cx - r * Consts_1.sin30) + ',' + (cy + r * Consts_1.cos30) + ' ' +
-                (cx + r * Consts_1.sin30) + ',' + (cy + r * Consts_1.cos30));
+                .attr('points', _this.createPointsString(cx, cy, r));
+        };
+        this.createPointsString = function (cx, cy, r) {
+            //top point, left and right points calculated using trig 
+            return cx + "," + (cy - r) + " " + (cx - r * Consts_1.sin30) + ", " + (cy + r * Consts_1.cos30) + " " + (cx + r * Consts_1.sin30) + ", " + (cy + r * Consts_1.cos30);
         };
         this.processOuterTriangles = function () {
             var self = _this;
@@ -28,12 +30,11 @@ var Sierpinski = (function () {
             _this.newTriangle(cx, cy - r / 2, r / 2);
             _this.newTriangle(cx - r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2);
             _this.newTriangle(cx + r * Consts_1.sin30 / 2, cy + r * Consts_1.cos30 / 2, r / 2);
-            //d3.select(triangle).attr('fill', 'white').on('click', () => { }).attr('class','inner');
             d3.select(triangle).remove();
         };
-        this.init = function () {
+        this.initIterations = function (iterations) {
             _this.newTriangle(_this.width / 2, _this.height * 2 / 3, _this.triangleHeight * 2 / 3);
-            for (var i = 0; i < 5; i++) {
+            for (var i = 0; i < iterations; i++) {
                 _this.zoomDepth += 1;
                 _this.processOuterTriangles();
             }
@@ -47,26 +48,41 @@ var Sierpinski = (function () {
                 else if (d3.event.sourceEvent.deltaY > 0) {
                     _this.zoomDepth += -1;
                 }
-                if (_this.zoomDepth > _this.currentIterations) {
-                    _this.processOuterTriangles();
-                }
+                _this.compareZoomAndIterate();
             }
             _this.svg.attr("transform", d3.event.transform);
         };
-        this.width = 1000;
-        this.height = 1000;
-        this.triangleHeight = 800;
+        this.compareZoomAndIterate = function () {
+            if (_this.zoomDepth > _this.currentIterations) {
+                _this.processOuterTriangles();
+            }
+        };
+        this.reset = function () {
+            d3.select("#chart").selectAll('*').remove();
+            _this.zoomDepth = 0;
+            _this.currentIterations = 0;
+            _this.initaliseCanvas();
+            _this.initIterations(5);
+        };
+        this.initaliseCanvas = function () {
+            _this.svg = d3.select("#chart")
+                .append("svg:svg")
+                .attr("width", _this.width)
+                .attr("height", _this.height)
+                .attr("pointer-events", "all")
+                .append('svg:g')
+                .call(d3.zoom().on("zoom", _this.transform))
+                .append('svg:g');
+            _this.svg.append('svg:rect')
+                .attr('width', _this.width)
+                .attr('height', _this.height)
+                .attr('fill', 'white');
+        };
+        this.width = document.getElementById('chart').offsetWidth;
+        this.height = window.innerHeight - document.getElementById('footer').offsetHeight - 50; //-30 to negate navbar
+        this.triangleHeight = Math.min(this.height, this.width);
         this.zoomDepth = 0;
         this.currentIterations = 0;
-        this.svg = d3.select("#chart")
-            .append("svg:svg")
-            .attr("width", this.width)
-            .attr("height", this.height)
-            .attr("pointer-events", "all")
-            .append('svg:g')
-            .call(d3.zoom().on("zoom", this.transform))
-            .append('svg:g');
-        this.init();
     }
     return Sierpinski;
 }());

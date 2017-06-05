@@ -85,10 +85,6 @@ export default class Sierpinski {
 
         this.zoomDepth = 0;
         this.currentIterations = 0;
-
-        this.initaliseCanvas();
-        this.initIterations(5);
-        
     }
 
     initaliseCanvas = () => {

@@ -140,8 +140,6 @@ var Sierpinski = (function () {
             d3.select("#chart").selectAll('*').remove();
             _this.zoomDepth = 0;
             _this.currentIterations = 0;
-            _this.initaliseCanvas();
-            _this.initIterations(5);
         };
         this.initaliseCanvas = function () {
             _this.svg = d3.select("#chart")
@@ -207,6 +205,8 @@ __webpack_require__(2);
     spnski.initIterations(5);
     $('#resetBtn').on('click', function () {
         spnski.reset();
+        spnski.initaliseCanvas();
+        spnski.initIterations(5);
     });
 }));
 

@@ -4,7 +4,7 @@ import {sin30, cos30} from '../Consts';
 import {expect} from 'chai';
 
 before(function () {
-  this.jsdom = require('jsdom-global')()
+  this.jsdom = require('jsdom-global')('<div><div class="row"><div class="col-md-11"><div id="chart"></div></div><div class="col-md-1"><br /><button class="btn btn-default btn-block" id="resetBtn">Reset</button></div></div></div><footer id="footer"><p>&copy; 2017 - Alex Logan</p></footer>');
 })
 
 describe('Points string should contain correct values', () => {
@@ -18,7 +18,7 @@ describe('Points string should contain correct values', () => {
         const sierpinksi = new Sierpinksi();
 
         //act
-        console.log(sierpinksi);
+        //console.log(sierpinksi);
         const result = sierpinksi.createPointsString(cx,cy,r);
 
         //assert
@@ -47,7 +47,7 @@ describe('Init zoom depth', () => {
         //arange
         const sierpinksi = new Sierpinksi();
         sierpinksi.initaliseCanvas();
-        const iterations = 5;
+        const iterations = 1;
 
         //act
         const initialZoomDepth = sierpinksi.zoomDepth;
@@ -64,7 +64,7 @@ describe('Init current iterations', () => {
         //arange
         const sierpinksi = new Sierpinksi();
         sierpinksi.initaliseCanvas();
-        const iterations = 5;
+        const iterations = 1;
 
         //act
         const initialIterations = sierpinksi.currentIterations;
@@ -81,7 +81,7 @@ describe('Reset zoom', () => {
         //arange
         const sierpinksi = new Sierpinksi();
         sierpinksi.initaliseCanvas();
-        sierpinksi.initIterations(5);
+        sierpinksi.initIterations(1);
 
         //act
         sierpinksi.reset();
@@ -98,7 +98,7 @@ describe('Reset current itertions', () => {
         //arange
         const sierpinksi = new Sierpinksi();
         sierpinksi.initaliseCanvas();
-        sierpinksi.initIterations(5);
+        sierpinksi.initIterations(1);
 
         //act
         sierpinksi.reset();
